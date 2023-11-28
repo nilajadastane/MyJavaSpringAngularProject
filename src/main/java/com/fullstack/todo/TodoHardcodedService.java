@@ -27,5 +27,39 @@ public class TodoHardcodedService {
 		// TODO Auto-generated method stub
 		return todos;
 	}
-	
+
+	public Todo deleteById(long id) {
+		Todo todo = findById(id);
+		if(todo == null) return null;
+
+		if(todos.remove(todo)) {
+			return todo;
+		}
+		return null;
+	}
+
+	public Todo findById(long id) {
+		for(Todo todo:todos) {
+			if(todo.getId() == id) {
+				return todo;
+			}
+		}
+
+		return null;
+	}
+
+	public Todo save(Todo todo) {
+		//if not exist insert
+		if(todo.getId()==-1 || todo.getId()==0) {
+			todo.setId(++idCounter);
+			todos.add(todo);
+		} else {
+			//is exist, delete it and then insert
+			deleteById(todo.getId());
+			todos.add(todo);
+		}
+		return todo;
+	}
+
+
 }
